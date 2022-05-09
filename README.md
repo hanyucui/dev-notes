@@ -17,7 +17,9 @@ Right hand side path:
   - If the path on the right side is not a local path, it must be a valid module path. In this case, a version is required. The same module version must not also appear in the build list.
   - replace directives only apply in the main module’s go.mod file and are ignored in other modules. See Minimal version selection for details. If there are multiple main modules, all main modules' go.mod files apply. Conflicting replace directives across main modules are disallowed, and must be removed or overridden in a replace in the go.work file.
 
-### Pulling code when the GitHub branch has been updated
+### Pulling code when the GitHub tag/branch has been updated
+This is a bad idea for published tags/releases. But for testing, you can just run `go get` with the module path and specific commit you desire.
 
+If you use the `replace` directive in `go.mod`, `go get` does not seem able to use the given commit for the substitute module. Hence, you should edit the entry using `replace` in `go.mod` to specify the desired commit. After than, run `go get` with the original path (left side of the `replace` statement) **without** any commit or version, and `go get` would be able to update `go.mod` and `go.sum` the desired commit.
 
 
